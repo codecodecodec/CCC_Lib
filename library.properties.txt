@@ -1,0 +1,9 @@
+name=CodeCodeCodec_Lib
+version=0.177013.0
+author=CodeCodeCodec
+maintainer=CodeCodeCodec <contact@codecodecodec.com>
+sentence=Arduino library for CodeCodeCodec's projects.
+paragraph=Arduino library for CodeCodeCodec's projects.
+category=Uncategorized
+url=
+architectures=*
