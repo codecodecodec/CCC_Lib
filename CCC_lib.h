@@ -95,26 +95,26 @@ const uint8_t SEG_10[] = {
   SEG_D,   
   0,     
   0,
-  0,      
+  0,
 };
 
 const uint8_t SEG_11[] = {
-  SEG_E,   
-  0,     
+  SEG_E,
   0,
-  0,      
+  0,
+  0,
 };
 
 const uint8_t SEG_12[] = {
-  SEG_F,   
-  0,     
+  SEG_F,
   0,
-  0,      
+  0,
+  0,
 };
 
-uint32_t *chrono(TM1637Display display, int etat = 0);
+uint32_t *chrono(int etat = 0);
 void afficher_chiffres(TM1637Display display, uint8_t a, uint8_t b, uint8_t c, uint8_t d);
-void ecran_gagnant(TM1637Display display);
+void animation(TM1637Display display);
 
 /****                  - - - - END CHRONOMETRE - - - -                  ****/
 
@@ -136,13 +136,15 @@ void ecran_gagnant(TM1637Display display);
 SoftwareSerial myMP3(ARDUINO_RX, ARDUINO_TX);
 int8_t Send_buf[6] = {0};
 
-void open_smart_setup(void);
-int check_low_time(void);
+void open_smart_init(void);
+int temps_appuye(int bttn);
+int temps_relache(int bttn);
+
 void mp3Basic(int8_t command);
 void mp3_5bytes(int8_t command, uint8_t dat);
-void sendCommand(int8_t command, int16_t dat);
+void envoie_commande(int8_t command, int16_t dat = 0);
 void sendBytes(uint8_t nbytes);
-void setVolume(int8_t vol);
+void change_volume(int8_t vol);
 
 /****                  - - - - END MACHINE A BLAGUE - - - -                  ****/
 
