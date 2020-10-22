@@ -3,10 +3,9 @@
 
 #include <Arduino.h>
 #include <stdint.h>
+#include <SoftwareSerial.h>
 
 #include <TM1637Display.h>  // CHRONOMETRE
-
-#include <SoftwareSerial.h> // MACHINE A BLAGUE
 
 /****                    - - - - CHRONOMETRE - - - -                    ****/
 
@@ -136,7 +135,7 @@ void animation(TM1637Display display);
 SoftwareSerial myMP3(ARDUINO_RX, ARDUINO_TX);
 int8_t Send_buf[6] = {0};
 
-void open_smart_init(void);
+void open_smart_initialisation(void);
 int temps_appuye(int bttn);
 int temps_relache(int bttn);
 
@@ -147,5 +146,17 @@ void sendBytes(uint8_t nbytes);
 void change_volume(int8_t vol);
 
 /****                  - - - - END MACHINE A BLAGUE - - - -                  ****/
+
+/****                  - - - - CAPTEUR DE DISTANCE - - - -                  ****/
+
+int ultrason(int pinTrig, int pinEcho);
+
+/****                  - - - - END CAPTEUR DE DISTANCE - - - -                  ****/
+
+/****                  - - - - RADAR A BUZZER - - - -                  ****/
+
+void buzz_buzz(int buzzer, int temps, int volume = 0);
+
+/****                  - - - - END RADAR A BUZZER - - - -                  ****/
 
 #endif /* CCC */

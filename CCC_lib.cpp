@@ -91,7 +91,7 @@ void animation(TM1637Display display)                   // Cette fonction fait u
 
 /****                    - - - - MACHINE A BLAGUE - - - -                    ****/
 
-void open_smart_init(void)          // Cette fonction initialise l'Open-Smart mp3 player et d'autres parametres
+void open_smart_initialisation(void)          // Cette fonction initialise l'Open-Smart mp3 player et d'autres parametres
 {
   myMP3.begin(9600);                 // Initialisation de l'Open-Smart mp3 player
   delay(500);                        // On attend que l'initialisation soit fini
@@ -189,75 +189,28 @@ void change_volume(int8_t vol)
 
 /****                  - - - - CAPTEUR DE DISTANCE - - - -                  ****/
 
-int quelle_distance(int pinTrig, int pinEcho)
+int ultrason(int pinTrig, int pinEcho)
 {
-    int temps = 0;                  // Cette variable va récuperer le temps du signal
+    int temps = 0;                          // Cette variable va récuperer le temps du signal
 
-    digitalWrite(pinTrig, HIGH);    // On lance un signal
-    delayMicroseconds(10);          // Pendant 10 microsecondes
-    digitalWrite(pinTrig, LOW);     // Puis on le stop
+    digitalWrite(pinTrig, HIGH);            // On lance un signal
+    delayMicroseconds(10);                  // Pendant 10 microsecondes
+    digitalWrite(pinTrig, LOW);             // Puis on le stop
 
-    temps = pulseIn(pinEcho, HIGH); // On récupère le signal envoyé
-
-    if (temps > 25000) {                        // Mais si le signal n'est pas revenue en 25 secondes
-        Serial.println("Echec de la mesure");   // Il y a echec de la mesure
-    }
-    else {                                      // Sinon
-        temps = temps / 2;                      // On divise le temps par deux (aller et retour = 2 fois plus de temps)
-        distance = (temps * 340) / 10000.0;     // La distance est egale à la vitesse (du son en l'occurence) par le temps
-        Serial.print("Distance: ");             // On affiche la distance sur le moniteur série
-        Serial.print(distance);
-        Serial.println(" cm");
-    }
-    return distance;                // On renvoit la valeur de distance
+    temps = pulseIn(pinEcho, HIGH);         // On récupère le signal envoyé
+    return temps;                           // On renvoie le temps récupéré
 }
 
 /****                  - - - - END CAPTEUR DE DISTANCE - - - -                  ****/
 
 /****                  - - - - RADAR A BUZZER - - - -                  ****/
 
-void distance_buzzer(int pinTrig, int pinEcho, int buzzer)
+void buzz_buzz(int buzzer, int temps, int volume = 0)
 {
-    int distance = quelle_distance(pinTrig, pinEcho);   // Cette variable récupère la distance
-    const int volume = 20;                               // Cette variable constante représante le volume du buzzer
-
-    if (distance > 1000) {                              // Si la distance est superieur à 1 mètre
-        digitalWrite(buzzer, LOW);                      // On éteint le buzzer
-        delay(1000);                                    // Et on attend 1 seconde
-    }
-    else if (distance < 1000 && distance > 500) {       // Sinon si la distance est entre 1 mètre et 50 cm
-        digitalWrite(buzzer, HIGH);                     // On allume le buzzer
-        tone(buzzer, 500, volume);                      // Et on le fait biper
-        delay(1000);                                    // Toute les secondes
-        tone(buzzer, 1000, volume);
-        delay(1000);
-        tone(buzzer, 500, volume);
-        delay(1000);
-        tone(buzzer, 1000, volume);
-        delay(1000);
-    }
-    else if (distance < 500 && distance > 100) {        // Sinon si la distance est entre 50 cm et 10 cm
-        digitalWrite(buzzer, HIGH);                     // On allume le buzzer
-        tone(buzzer, 500, volume);                      // Et on le fait biper
-        delay(500);                                     // Toute les demi secondes
-        tone(buzzer, 1000, volume);
-        delay(500);
-        tone(buzzer, 500, volume);
-        delay(500);
-        tone(buzzer, 1000, volume);
-        delay(500);
-    }
-    else if (distance < 100) {                          // Sinon si la distance est inferieur à 10 cm
-        digitalWrite(buzzer, HIGH);                     // On allume le buzzer
-        tone(buzzer, 500, volume);                      // Et on le fait biper
-        delay(250);                                     // Toute les demi demi secondes (0.25 secondes)
-        tone(buzzer, 1000, volume);
-        delay(250);
-        tone(buzzer, 500, volume);
-        delay(250);
-        tone(buzzer, 1000, volume);
-        delay(250);
-    }
+    digitalWrite(buzzer, HIGH);                     // On allume le buzzer,
+    tone(buzzer, 500, volume);                      // On le fait biper au volume indiqué
+    delay(temps);                                   // Pendant le temps indiqué
+    digitalWrite(buzzer, LOW);                      // Et on eteind le buzzer
 }
 
 /****                  - - - - END RADAR A BUZZER - - - -                  ****/
